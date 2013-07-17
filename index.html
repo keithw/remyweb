@@ -170,12 +170,12 @@ conversations
   machines running Cubic is complicated and
   difficult to characterize. It can even be
   unstable. Congestion-control schemes each embody
-  preconceptions about how the network behaves, but we don't quite
+  implicit assumptions and preconceptions about the network, but we don't quite
   know what they are. And
-  the <a href="http://www.wischik.com/damon/Work/Talks/ipteleology.pdf‎">teleology
-  of congestion control</a> &mdash; the end goal that these algorithms
-  are trying to achieve
-  &mdash; is generally unknown.</p>
+  the <a href="http://www.wischik.com/damon/Work/Talks/ipteleology.pdf">teleology
+  of TCP</a> &mdash; the end goal that these algorithms
+  try to achieve
+  &mdash; is unknown in general, when connections start and stop over time.</p>
 
 <p>We propose to flip this around. With Remy, human protocol designers
   specify explicitly their prior knowledge and assumptions about the
@@ -183,6 +183,8 @@ conversations
   run at the endpoints &mdash; possibly a complex one, but with simple
   emergent behavior: achieving the goal as best as possible on
   networks described by the stated assumptions.</p></dd>
+
+	    <dt><p>How does this help the Internet?</p></dt>
 
 	    <dt><p>How well do Remy's computer-generated algorithms work?</p></dt>
 
@@ -194,18 +196,18 @@ conversations
 <p>In the former case, the best computer-designed algorithms
   outperformed all our human-designed schemes to date &mdash; not only
   other end-to-end schemes, but also algorithms that depend
-  on code running <b>inside</b> the network, such as <a href="http://conferences.sigcomm.org/sigcomm/2002/papers/xcp.html">XCP</a> and
+  on code running inside the network, such as <a href="http://conferences.sigcomm.org/sigcomm/2002/papers/xcp.html">XCP</a> and
   <a href="http://en.wikipedia.org/wiki/CoDel">sfqCoDel</a>.</p>
 
 <p>For example, with eight senders sharing a 15 Mbps link, a
-  Remy-generated algorithm achieved more than twice the median
-  throughput, with less than half the queueing delay, of Compound TCP
-  and TCP NewReno. It achieved 70% more throughput than TCP Cubic and
-  more than a threefold reduction in queueing delay.</p>
+  Remy-generated algorithm achieved more than <b>twice</b> the median
+  throughput, with <b>less than half</b> the queueing delay, of Compound TCP
+  and TCP NewReno. It achieved <b>70% more throughput</b> than TCP Cubic and
+  more than a <b>threefold</b> reduction in queueing delay.</p>
 
 <p>Performance varied with how specific the prior knowledge was. In
   general, the more specific the prior knowledge the better, as long
-  as it's correct. But on networks that didn't meet the given assumptions,
+  as it is correct. But on networks that didn't meet the given assumptions,
   performance of Remy's algorithms deteriorated the further the
   network was from what Remy had been told to expect. A full
   discussion of these results is available
@@ -226,7 +228,7 @@ conversations
     throughputs are found as the graph gets higher. Delay is shown on
     the <b>flipped x-axis</b>: better delays are found as the graph
     moves to the right. The best schemes are in the upper-right-hand
-    corner. The <b>efficient frontier</b> &mdash; the best available
+    corner. The efficient frontier &mdash; the best available
     tradeoffs between throughput and delay &mdash; is shown in
     blue:</p>
 
@@ -238,9 +240,34 @@ conversations
 <p>Results of several more simulations are available in <a href="TCPexMachina.pdf">the
     research paper</a>.</p></dd>
 
-<p>
+<dt><p>How does Remy work?</p></dt>
 
-<p class="text-center"><img width="360" src="spec-web.svg"></p>
+<dt><p>Why do the computer-generated algorithms get these results?</p></dt>
+
+<dt><p>How is it possible that end-to-end algorithms can outperform in-network schemes like XCP and sfqCoDel?</p></dt>
+
+<dt><p>Isn't TCP basically good enough?</p></dt>
+
+<dt><p>Should a Remy-designed algorithm replace TCP?</p></dt>
+
+<dt><p>Are you overfitting?</p></dt>
+
+<dd><p class="text-center"><img width="360" src="spec-web.svg"></p></dd>
+
+<dt><p>Do you plan any future work?</p></dt>
+
+<dt><p>Who helped with Remy?</p></dt>
+
+<dd><p>We are grateful to Anirudh Sivaraman for several contributions
+to the simulator and for helpful discussions. We thank Leslie
+Kaelbling, Christopher Amato, Scott Shenker, and our shepherd, Ranjita
+Bhagwan. We thank Frans Kaashoek and Nickolai Zeldovich for the use of
+multicore machines at MIT. KW was supported by the Claude E. Shannon
+Research Assistantship. We thank the members of the MIT Center for
+Wireless Networks and Mobile Computing (Wireless@MIT), including
+Amazon.com, Cisco, Google, Intel, Mediatek, Microsoft, ST
+Microelectronics, and Telefonica, for their support. This work was
+also supported in part by NSF grant CNS-1040072.</p></dd>
 
 	  </dl>
 	</div>
