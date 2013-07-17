@@ -73,7 +73,8 @@ rely on intelligence inside the network.">
     <div class="container-narrow">
 
       <div class="masthead">
-        <h3><span class="text-error">TCP ex Machina: </span>Computer-Generated Congestion Control</h3>
+        <h3><span class="text-error">TCP ex
+        Machina: </span>Draft-Draft Draft Draft</h3>
 	<p class="text-right muted">by Keith Winstein and Hari Balakrishnan<br />
 	MIT Computer Science and Artificial Intelligence Laboratory</p>
       </div>
@@ -85,12 +86,12 @@ rely on intelligence inside the network.">
 out how computers can best cooperate to share a network.</p>
 
 <p class="text-left lead">Remy creates end-to-end congestion-control
-algorithms that plug into the Transmission Control Protocol. These
-computer-generated algorithms can achieve <strong>higher
+algorithms that plug into the Transmission Control Protocol
+(TCP). These computer-generated algorithms can achieve <strong>higher
 performance</strong> and <strong>greater fairness</strong> than the
 most sophisticated human-designed schemes.</p>
 
-	<p><img src="remy-hero-chart-convert2.svg"></p>
+	<p><img width="600" src="remy-hero-chart-convert2.svg"></p>
 	<br />
 
         <a class="btn btn-primary" href="TCPexMachina.pdf">Read the Paper</a>
@@ -113,12 +114,133 @@ most sophisticated human-designed schemes.</p>
 
 	    <div class="well"><p><a href="TCPexMachina.pdf"><img src="pdf.png"> TCP ex Machina: Computer-Generated Congestion Control</a></p>
 
-	    <p class="muted"><small>This is an author
-	      preprint. The official version will be available in
-	      the <a href="http://dl.acm.org">ACM Digital
-	      Library</a>.</small></p>
+	    <p class="muted"><small>This is the authors' version of
+		the work. The definitive version will be published in
+		the proceedings of ACM SIGCOMM 2013.</small></p>
 	    </div>
 	  </div>
+	</div>
+      </section>
+
+      <section id="paper">
+	<div class="page-header">
+	  <h3>Frequently Asked Questions</h3>
+	</div>
+
+	<div class="span6">
+	  <dl>
+	    <dt><p>What is congestion control?</p></dt>
+
+	    <dd><p>On the Internet, most of the intelligence lies in
+the endpoint computers, not inside the network. One of the
+endpoints' responsibilities is to fairly share the network's limited
+resources among themselves.</p>
+
+<p>For example, in a house with a 10 Mbps connection to
+the Internet, with two users trying to upload a video to YouTube at
+the same time, it's usually the users' computers that decide how the 10 Mbps
+will be split between them. Does one get 9 Mbps and the other 1 Mbps?
+Do they split the capacity evenly? Does the one with the shorter video
+get to go first? By sending too aggressively, do these uploads force real-time
+conversations
+(e.g. a Skype call) to <a href="http://www.bufferbloat.net">suffer large delays</a>?</p>
+
+<p>These questions are the province
+  of <a href="http://en.wikipedia.org/wiki/TCP_congestion_avoidance_algorithm">TCP
+  congestion control</a>: an algorithm contained in every computer
+  on the Internet, governing how it shares
+  the network with other computers. TCP is arguably the most
+  widely-used computer program in the world. It is the basis of
+  the World Wide Web and services like Netflix and YouTube.</p></dd>
+
+	    <dt><p>What makes Remy different?</p></dt>
+
+<dd><p>Up to this point, human designers have created TCP's
+ congestion-control algorithms by hand. There have
+ been <a href="http://en.wikipedia.org/wiki/TCP_congestion_avoidance_algorithm">many
+ such schemes</a> over the last 25 years: TCP Tahoe, Reno, NewReno,
+ Vegas, FAST, BIC, Cubic (Linux's current default), Compound
+ (Windows's current default), etc. As the Internet has matured and
+ evolved, crossing oceans and including wireless networks and ultrafast
+ datacenters, so too have protocol designers added bells and
+ whistles to our congestion-control algorithms.</p>
+
+<p>But while it is easy to lay out the rules that govern a single
+  endpoint running TCP Cubic, the <strong>emergent behavior</strong> of a flock of
+  machines running Cubic is complicated and
+  difficult to characterize. It can even be
+  unstable. Congestion-control schemes each embody
+  preconceptions about how the network will behave, but we don't quite
+  know what they are. And
+  the <a href="http://www.wischik.com/damon/Work/Talks/ipteleology.pdf‎">teleology
+  of congestion control</a> &mdash; the end goal that these algorithms
+  are trying to achieve
+  &mdash; is generally unknown.</p>
+
+<p>We propose to flip this around. With Remy, human protocol designers
+  specify explicitly their prior knowledge and assumptions about the
+  network and a goal to strive for. Remy then creates an algorithm to
+  run at the endpoints &mdash; possibly a complex one, but with simple
+  emergent behavior: achieving the goal on networks consistent
+  the given prior knowledge.</p></dd>
+
+	    <dt><p>How well do Remy's computer-generated algorithms work?</p></dt>
+
+<dd><p>We tested Remy's computer-generated algorithms both on networks
+    within the range for which they were designed (networks
+    consistent with the prior assumptions)
+    and on networks outside that range.</p>
+
+<p>In the former case, the best computer-designed algorithms
+  outperformed all our human-designed schemes to date &mdash; not only
+  other end-to-end schemes, but also algorithms that depend
+  on code running <b>inside</b> the network, such as <a href="http://conferences.sigcomm.org/sigcomm/2002/papers/xcp.html">XCP</a> and
+  <a href="http://en.wikipedia.org/wiki/CoDel">sfqCoDel</a>.</p>
+
+<p>For example, with eight senders sharing a 15 Mbps link, a
+  Remy-generated algorithm achieved more than twice the median
+  throughput, with less than half the queueing delay, of Compound TCP
+  and TCP NewReno. It achieved 70% more throughput than TCP Cubic and
+  more than a threefold reduction in queueing delay.</p>
+
+<p>But on networks that violated the prior assumptions, performance
+  of Remy's algorithms deteriorated the more different the network was
+  from what Remy had been told to expect. A full discussion of these results is available
+  in <a href="TCPexMachina.pdf">the research paper.</a></p></dd>
+
+<dt><p>How do I interpret the performance plots?</p></dt>
+
+<dd><p>We summarize the behavior of congestion-control schemes on
+    a throughput-delay plot. For a given network and traffic
+    model, we run many simulations of each scheme. We calculate the
+    median throughput and induced queueing delay in each run,
+    as well as the 1-&sigma; ellipses showing the variability
+    (fairness) of outcome per sender.</p>
+
+  <p>On the plot, throughput is shown on the y-axis, and better
+    throughputs are found as the graph gets higher. Delay is shown on
+    the <b>flipped x-axis</b>: better delays are found as the graph
+    moves to the right.</p>
+
+  <p>The best schemes are in the upper-right-hand corner and have
+    small ellipses. These represent the most fair,
+    highest-performing congestion-control algorithms. Less-fair
+    schemes have larger ellipses. The <b>efficient frontier</b> &mdash; the best available
+    tradeoffs between throughput and delay &mdash; is shown in blue.</p>
+
+<br />
+
+<div class="well text-center"><p><small>Example from the top of this Web
+  page (Fig. 4 of paper; 15 Mbps fixed-rate link, eight senders).</small></p><p><img width="360" src="remy-hero-chart-convert2.svg"></p></div>
+
+<p>Several more plots are available in <a href="TCPexMachina.pdf">the
+    research paper</a>.</p></dd>
+
+<p>
+
+<p class="text-center"><img width="360" src="spec-web.svg"></p>
+
+	  </dl>
 	</div>
       </section>
 
