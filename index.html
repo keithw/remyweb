@@ -139,7 +139,7 @@ resources among themselves.</p>
 <p>For example, in a house with a 10 Mbps connection to
 the Internet, with two users trying to upload a video to YouTube at
 the same time, it's usually the users' computers that decide how the 10 Mbps
-will be split between them. Does one get 9 Mbps and the other 1 Mbps?
+will be split. Does one get 9 Mbps and the other 1 Mbps?
 Do they split the capacity evenly? Does the one with the shorter video
 get to go first? By sending too aggressively, do these uploads force real-time
 conversations
@@ -150,7 +150,7 @@ conversations
   congestion control</a>: an algorithm contained in every computer
   on the Internet, governing how it shares
   the network with other computers. TCP is arguably the most
-  widely-used computer program in the world. It is the basis of
+  widely-used computer program in the world. It runs
   the World Wide Web and services like Netflix and YouTube.</p></dd>
 
 	    <dt><p>What makes Remy different?</p></dt>
@@ -170,7 +170,7 @@ conversations
   machines running Cubic is complicated and
   difficult to characterize. It can even be
   unstable. Congestion-control schemes each embody
-  preconceptions about how the network will behave, but we don't quite
+  preconceptions about how the network behaves, but we don't quite
   know what they are. And
   the <a href="http://www.wischik.com/damon/Work/Talks/ipteleology.pdf‎">teleology
   of congestion control</a> &mdash; the end goal that these algorithms
@@ -181,8 +181,8 @@ conversations
   specify explicitly their prior knowledge and assumptions about the
   network and a goal to strive for. Remy then creates an algorithm to
   run at the endpoints &mdash; possibly a complex one, but with simple
-  emergent behavior: achieving the goal on networks consistent
-  the given prior knowledge.</p></dd>
+  emergent behavior: achieving the goal as best as possible on
+  networks described by the stated assumptions.</p></dd>
 
 	    <dt><p>How well do Remy's computer-generated algorithms work?</p></dt>
 
@@ -203,9 +203,12 @@ conversations
   and TCP NewReno. It achieved 70% more throughput than TCP Cubic and
   more than a threefold reduction in queueing delay.</p>
 
-<p>But on networks that violated the prior assumptions, performance
-  of Remy's algorithms deteriorated the more different the network was
-  from what Remy had been told to expect. A full discussion of these results is available
+<p>Performance varied with how specific the prior knowledge was. In
+  general, the more specific the prior knowledge the better, as long
+  as it's correct. But on networks that didn't meet the given assumptions,
+  performance of Remy's algorithms deteriorated the further the
+  network was from what Remy had been told to expect. A full
+  discussion of these results is available
   in <a href="TCPexMachina.pdf">the research paper.</a></p></dd>
 
 <dt><p>How do I interpret the performance plots?</p></dt>
@@ -228,8 +231,8 @@ conversations
     blue:</p>
 
 <div class="well text-center"><p><img width="360"
-				      src="remy-hero-chart-convert2.svg"></p><p><b>Example
-				      throughput-delay plot (Fig. 4
+				      src="vzw-web.svg"></p><p><b>Example
+				      throughput-delay plot (Fig. 7
 				      of paper)</b></p></div>
 
 <p>Results of several more simulations are available in <a href="TCPexMachina.pdf">the
