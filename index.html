@@ -213,27 +213,26 @@ conversations
 <dd><p>We summarize the behavior of congestion-control schemes on
     a throughput-delay plot. For a given network and traffic
     model, we run many simulations of each scheme. We calculate the
-    median throughput and induced queueing delay in each run,
+    median throughput and queueing delay in each run,
     as well as the 1-&sigma; ellipses showing the variability
-    (fairness) of outcome per sender.</p>
+    (unfairness) of outcome per sender.</p>
+
+  <p class="text-center"><img width="360" src="legend.svg"></p>
 
   <p>On the plot, throughput is shown on the y-axis, and better
     throughputs are found as the graph gets higher. Delay is shown on
     the <b>flipped x-axis</b>: better delays are found as the graph
-    moves to the right.</p>
+    moves to the right. The best schemes are in the upper-right-hand
+    corner. The <b>efficient frontier</b> &mdash; the best available
+    tradeoffs between throughput and delay &mdash; is shown in
+    blue:</p>
 
-  <p>The best schemes are in the upper-right-hand corner and have
-    small ellipses. These represent the most fair,
-    highest-performing congestion-control algorithms. Less-fair
-    schemes have larger ellipses. The <b>efficient frontier</b> &mdash; the best available
-    tradeoffs between throughput and delay &mdash; is shown in blue.</p>
+<div class="well text-center"><p><img width="360"
+				      src="remy-hero-chart-convert2.svg"></p><p><b>Example
+				      throughput-delay plot (Fig. 4
+				      of paper)</b></p></div>
 
-<br />
-
-<div class="well text-center"><p><small>Example from the top of this Web
-  page (Fig. 4 of paper; 15 Mbps fixed-rate link, eight senders).</small></p><p><img width="360" src="remy-hero-chart-convert2.svg"></p></div>
-
-<p>Several more plots are available in <a href="TCPexMachina.pdf">the
+<p>Results of several more simulations are available in <a href="TCPexMachina.pdf">the
     research paper</a>.</p></dd>
 
 <p>
