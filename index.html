@@ -101,11 +101,12 @@ algorithms that plug into the Transmission Control Protocol
 performance</strong> and <strong>greater fairness</strong> than the
 most sophisticated human-designed schemes.</p>
 
+<a name="fig4"></a>
 	<p><img width="600" src="remy-hero-chart-convert2.svg"></p>
 	<br />
 
         <a class="btn btn-primary" href="TCPexMachina.pdf">Read the Paper</a>
-        <a class="btn btn-info" href="https://github.com/hbatmit/ns2.35/tree/remy">Reproduce the Results</a>
+        <a class="btn btn-info" href="#reproduce">Reproduce the Results</a>
         <a class="btn btn-success" href="https://github.com/keithw/remy">Get the Code</a>
       </div>
 
@@ -137,6 +138,7 @@ most sophisticated human-designed schemes.</p>
 	  <h3>Frequently Asked Questions</h3>
 	</div>
 
+	<div class="row">
 	<div class="span8">
 	  <dl>
 	    <dt><p>What is congestion control?</p></dt>
@@ -576,6 +578,66 @@ NSF grant CNS-1040072.</p></dd>
 
 	  </dl>
 	</div>
+	</div>
+      </section>
+
+      <section id="reproduce">
+	<div class="page-header">
+	  <h3>Reproducing the Results</h3>
+	</div>
+
+	<p>To reproduce the paper's <a href="#fig4">Figure 4 (shown above)</a> and 
+	  other throughput-delay plots, please make sure you have a
+	  C++11 compiler (recent gcc or clang). We
+	  have tested the following steps on Ubuntu 13.04.
+
+	  <ol>
+	    <li>Download <a href="remy-reproduce-1.0.tar.gz">remy-reproduce-1.0.tar.gz</a> (61 MiB). This is a modified version of <a href="http://www.isi.edu/nsnam/ns/ns-build.html">ns-allinone 2.35</a>.</li>
+
+	    <li>Unpack the tarball (<code>tar zxvf remy-reproduce-1.0.tar.gz</code>).</li>
+
+	    <li><code>cd remy-reproduce-1.0</code></li>
+
+	    <li>Run <code>./install</code>. This will compile the components of ns-allinone, including our modified ns-2.35.</li>
+
+	    <li>If successful, <code>cd ns-2.35/tcl/ex/congctrl</code>.</li>
+
+	    <li>Run <code>./run-figure4-parallel</code>. By default,
+	      this runs the simulations necessary to construct Figure
+	      4 (a 15 Mbps dumbbell network with RTT of 150
+	      millisecond). This configuration is contained in
+	      <code>remyconf/dumbbell-buf1000-rtt150-bneck15.tcl</code>. The <code>remyconf</code>
+	      directory also includes the configurations used for the
+	      other figures.</li>
+
+	    <li>On a typical PC, the full job will take a long time to
+	    complete. It will run the simulations in parallel and in
+	    the background. After it has completed at least a few
+	    runs, you can start to graph the results.</li>
+
+	    <li><code>cd ../graphing-scripts</code></li>
+
+	    <li><code>./graphmaker ../congctrl/results/</code>. This
+	    will output an SVG and PNG file for each <code>nsrc</code>
+	    (maximum degree of multiplexing) enumerated
+	    in <code>run-figure4-parallel</code>. (As distributed,
+	    only 8 is tested.) The graphmaker requires inkscape.</li>
+
+	    <li>To view the image, <code>display
+	    ../congctrl/results/graphdir/graph-8.png</code>.
+	    Uncolorized, it will look like this:<br />
+	      <img src="graph-8.png">
+	      <p></p>
+	    </li>
+
+	    <li>To run Remy and design new congestion-control
+	      algorithms, please
+	      visit <a href="https://github.com/keithw/remy">the
+	      GitHub repository</a> and follow the directions
+	      there.</li>
+
+	  </ol>
+
       </section>
 
       <section id="contact">
