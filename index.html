@@ -533,16 +533,32 @@ real-time cross traffic. That may have been true in 1989, but it's not
 true today&mdash;making it hard to run a TCP upload and a Skype call
 at the same time.</p></dd>
 
+<dt><p>How well do RemyCCs perform in a mixed environment, e.g. contending
+with Cubic or Compound for the same bottleneck link?</p></dt>
+
+<dd><p>It depends. The <a href="TCPexMachina.pdf">research paper</a>
+describes one experiment along these lines (section 5.6). The summary
+is that if the protocol designer doesn't include in the assumptions
+the possibility that a &ldquo;buffer-filling&rdquo; TCP might be
+causing large delays on the link, the RemyCC's performance will be
+poor, because this is not a scenario that was observed during the
+design phase. If the designer does include this possibility, a RemyCC
+can achieve a roughly equitable sharing of throughput with Cubic or
+Compound&mdash;although the delay will still be terrible. There's
+little that an end-to-end protocol can do about this; if Cubic has
+filled an in-network queue with its own packets, every other flow's
+packets will have to wait in line and suffer the same delay.</p></dd>
+
 <dt><p>Do you plan any future work?</p></dt>
 
-<dd><p>Absolutely. We'd like to figure out <b>why</b> the RemyCCs work so
-well, by tracing through them as they execute and reverse-engineering
+<dd><p>Absolutely. We'd like to figure out <b>why</b> the RemyCCs work,
+by tracing through them as they execute and reverse-engineering
 them. We'd like to implement Remy on a real network and test it
 out. And we'd like to work to find the limits of Remy &mdash; can we
 successfully optimize a RemyCC over a 10,000x range of throughputs and
 delays? What are the obstacles to making that work? Are there other
 congestion signals that a RemyCC should consider? We welcome
-collaborators interested in working on this with us.</p></dd>
+collaborators interested in working with us.</p></dd>
 
 <dt><p>Who helped with Remy?</p></dt>
 
