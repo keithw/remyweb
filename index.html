@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42573039-1', 'mit.edu');
+  ga('send', 'pageview');
+
+</script>
     <meta charset="utf-8">
     <title>TCP ex Machina</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +84,7 @@ rely on intelligence inside the network.">
 
       <div class="masthead">
         <h3><span class="text-error">TCP ex
-        Machina: </span>Draft-Draft Draft Draft</h3>
+        Machina: </span>Computer-Generated Congestion Control</h3>
 	<p class="text-right muted">by Keith Winstein and Hari Balakrishnan<br />
 	MIT Computer Science and Artificial Intelligence Laboratory</p>
       </div>
@@ -95,7 +105,7 @@ most sophisticated human-designed schemes.</p>
 	<br />
 
         <a class="btn btn-primary" href="TCPexMachina.pdf">Read the Paper</a>
-        <a class="btn btn-info" href="#">Reproduce the Results</a>
+        <a class="btn btn-info" href="https://github.com/hbatmit/ns2.35/tree/remy">Reproduce the Results</a>
         <a class="btn btn-success" href="https://github.com/keithw/remy">Get the Code</a>
       </div>
 
@@ -107,7 +117,7 @@ most sophisticated human-designed schemes.</p>
 	</div>
 
 	<div class="row">
-	  <div class="span6">
+	  <div class="span8">
 	    <p>Remy will be presented at the
 	    <a href="http://conferences.sigcomm.org/sigcomm/2013">ACM
 	    SIGCOMM 2013 annual conference</a> in Hong Kong.</p>
@@ -127,7 +137,7 @@ most sophisticated human-designed schemes.</p>
 	  <h3>Frequently Asked Questions</h3>
 	</div>
 
-	<div class="span6">
+	<div class="span8">
 	  <dl>
 	    <dt><p>What is congestion control?</p></dt>
 
@@ -143,7 +153,7 @@ will be split. Does one get 9 Mbps and the other 1 Mbps?
 Do they split the capacity evenly? Does the one with the shorter video
 get to go first? By sending too aggressively, do these uploads force real-time
 conversations
-(e.g. a Skype call) to <a href="http://www.bufferbloat.net">suffer large delays</a>?</p>
+(e.g. a Skype call) to <a href="http://queue.acm.org/detail.cfm?id=2076798">suffer large delays</a>?</p>
 
 <p>These questions are the province
   of <a href="http://en.wikipedia.org/wiki/TCP_congestion_avoidance_algorithm">TCP
@@ -184,8 +194,6 @@ conversations
   emergent behavior: achieving the goal as best as possible on
   networks described by the stated assumptions.</p></dd>
 
-	    <dt><p>How does this help the Internet?</p></dt>
-
 	    <dt><p>How well do Remy's computer-generated algorithms work?</p></dt>
 
 <dd><p>We tested Remy's computer-generated algorithms both on networks
@@ -213,6 +221,70 @@ conversations
   discussion of these results is available
   in <a href="TCPexMachina.pdf">the research paper.</a></p></dd>
 
+	    <dt><p>How does this help the Internet?</p></dt>
+
+<dd><p>It's a little too soon to tell. Our research paper measured the
+performance of Remy's algorithms in simulation, using the
+popular <a href="http://nsnam.isi.edu/nsnam/index.php/Main_Page">ns-2</a>
+simulator. If the gains seen in these simulations hold when tested on
+a real network, the results would mean faster downloads, shorter
+end-to-end delay in real-time videoconferencing, and a more equitable
+sharing of limited network resources.</p>
+
+<p>We are far from the first to propose a way to improve TCP. But our
+work points toward a way for the Internet to <b>evolve</b> more
+easily, by making assumptions explicit and automating the process of
+protocol design. Right now, the designers of network infrastructure
+(especially Wi-Fi, LTE, and satellite connections) are constrained by
+the need to make TCP perform well. As a result, these networks try to
+retransmit lost packets, and they keep packets delivered in order, and
+they avoid spreading packets from the same flow on multiple different
+routes. Other, more natural behaviors would be more reliable
+(multipath routing) or faster (allowing out-of-order delivery) or
+cause lower delays (don't retransmit), but today's TCP &mdash; part of
+the endpoint operating systems &mdash; would respond poorly. Tweaking
+TCP by hand to accommodate the natural behavior of a new network is a
+difficult exercise.</p>
+
+<p>We think TCP should adapt to <b>whatever</b> the lower layers feel
+like doing. If the behavior of the network changes radically, a
+protocol designer could tweak the assumptions fed into Remy, and end
+up with a new and newly-appropriate TCP congestion-control scheme
+automatically. In our view, this flexibility would free up
+the network infrastructure to explore new behaviors. Multipath routing,
+out-of-order delivery, and exposing stochastic loss may be good things!</p></dd>
+
+<dt><p>How does this relate to "bufferbloat"?</p></dt>
+
+<dd><p>It's now
+a <a href="http://queue.acm.org/detail.cfm?id=2071893">well-known
+problem</a> that some kinds of gateways (often cable modems and
+cellular connections) are so reluctant to drop packets that they will
+hold on to tens of megabytes in their buffers. Today's TCP fills up the
+buffers in the bottleneck gateway, causing huge delays for other
+packets traveling on the same path. This makes it hard to have a
+Skype call and a big upload at the same time over a
+cable modem&mdash;the upload can cause the Skype call to see delays of
+2 seconds or more.</p>
+
+<p>Many in the bufferbloat community argue that network operators
+should modify the infrastructure to have shorter buffers or
+intelligent queue-management schemes, such as the
+recent <a href="http://en.wikipedia.org/wiki/CoDel">CoDel</a> and
+separate queues for different flows. But modifying every place there
+is too much buffering &mdash; every LTE base station, every LTE
+baseband chip inside a cell phone, and every cable modem &mdash; may
+be an uphill battle.<p>
+
+<p>Our work demonstrates that in some cases, comparable or higher
+performance is possible without modifying network infrastructure at
+all&mdash;just by modifying the contending endpoints. Which route is
+easier depends on where you sit, and to be clear, CoDel is an actual
+scheme that is implemented in Linux, and Remy is academic research
+measured in simulation, so it would be premature to claim victory. But
+Remy suggests there is an alternative, possibly more deployable,
+solution to the same problem.</p></dd>
+
 <dt><p>How do I interpret the performance plots?</p></dt>
 
 <dd><p>We summarize the behavior of congestion-control schemes on
@@ -234,27 +306,231 @@ conversations
 
 <div class="well text-center"><p><img width="360"
 				      src="vzw-web.svg"></p><p><b>Example
-				      throughput-delay plot (Fig. 7
-				      of paper)</b></p></div>
+				      throughput-delay plot of each
+				      scheme running over a trace of
+				      the Verizon LTE downlink, four
+				      flows contending (Fig. 7 of
+				      paper)</b></p></div>
 
 <p>Results of several more simulations are available in <a href="TCPexMachina.pdf">the
     research paper</a>.</p></dd>
 
-<dt><p>How does Remy work?</p></dt>
+<dt><p>What does Remy do?</p></dt>
+
+<dd><p>Remy is run as an offline optimization tool to create a new
+congestion-control scheme. As input, it takes:
+
+<ul><li>the protocol designer's <b>prior knowledge</b> or assumptions
+about the network. Is the wire speed known in advance, or is it
+subject to uncertainty? (Some protocols, such as XCP or pFabric, want
+to know the wire speed exactly.) What are the range of round-trip
+times the protocol may encounter? These assumptions are encoded into a
+network model.</li>
+
+<li>a <b>traffic model</b> expressing the needs of the users on the network, as a stochastic model
+expressing when flows start and stop.</li>
+
+<li>an <b>objective function</b> for what the protocol should aim to
+maximize. The sum of the log of each user's throughput? Throughput divided by delay ? Flow completion time?</li>
+
+</ul>
+
+<p>Remy typically runs for several hours and produces a
+congestion-control algorithm that can be implanted into the sender of
+a TCP implementation, and then run in real-time. Right now, we do not
+need to modify the TCP receiver.</p>
+
+</dd>
+
+<dt><p>How can Remy create an algorithm automatically? Isn't this just a sophisticated parameter sweep technique?</p></dt>
+
+<dd><p>A fully-general solution to the congestion-control problem
+would have to map every possible input (the sequence of
+acknowledgments and when they arrived) and past actions taken (when
+every outgoing packet was sent) to a decision about when to send the
+next packet. The general version of this problem is known as
+a <a href="http://rbr.cs.umass.edu/camato/decpomdp/">Decentralized
+Partially-Observable Markov Decision Process</a>, and such a search
+would probably be NEXP-complete&mdash;beyond computationally
+infeasible!</p>
+
+<p>To approximate the solution tractably, Remy cuts back on the state
+that the algorithm has to keep track of. Instead of the full history
+of all acknowledgments received and outgoing packets sent, a
+Remy-designed congestion-control algorithm (RemyCC) tracks three state variables:
+
+<ul>
+<li>a moving average of the inter-arrival time of acknowledgments from the receiver</li>
+
+<li>a moving average of the sender's outgoing timestamp echoed in those acknowledgments</li>
+
+<li>the ratio between the most recent round-trip-time measurement and the minimum observed so far on this connection</li>
+</ul>
+
+At present, these are the only congestion signals used by RemyCCs.</p>
+
+<p>The RemyCC maps regions of this state space to an <b>action</b>:
+
+<ul>
+<li>a multiplier to the current congestion window</li>
+
+<li>an increment to the congestion window</li>
+
+<li>a minimum interval between outgoing packets (for pacing)</li>
+</ul></p>
+
+<p>To find the best mapping, Remy start with the entire state space
+mapped to just one action. It simulates the performance of the
+RemyCC on networks randomly-drawn from the network model, and measures
+the value of the objective. It explores different actions and searches
+for the best one overall. We call this a <b>rule</b>: a mapping of a
+region of the state space (in this case the entire space) to one
+action.</p>
+
+<p>After it has converged on the best single action, Remy splits the
+rule at the median query in each dimension. That is, it creates eight
+new rules, so that each one is used roughly 1/8 of the time. We repeat
+the optimization, finding the best action for each of these eight
+rectangular regions of the state space. When that has converged, Remy
+splits the most popular rule and repeats the process.</p>
+
+<p>The result is that rules that are used more often receive
+correspondingly more attention from the optimizer. Knowing which rules
+those will be requires simulating the network with every node running
+the same rules. So Remy mixes structural optimizations (splitting the
+existing rules) with improvements to existing rules, and alternates between them.</p>
+
+<p>Formally, Remy's optimization is non-parametric (so it's not "just"
+a parameter sweep technique), because the number of parameters is
+unbounded and continues growing as rules are split. But Remy is not as
+general as to find any algorithm that might be best&mdash;we restrict
+the RemyCC to only consider the three state variables.</p></dd>
+
+<dt><p>How did you pick these congestion signals?</p></dt>
+
+<dd><p>We experimented with various signals in Remy and narrowed the
+memory to this set after examining and discarding quantities like the
+most-recent RTT sample, the smoothed RTT estimate, and the difference
+between the long-term moving average and short-term average of the observed packet
+rate or RTT. In our experiments, adding extra state variables didn’t
+improve the performance of the resulting protocol, and each additional
+dimension slows down the design procedure considerably.  But we don’t
+claim that Remy’s three state variables are the only set that works,
+or that they are necessarily optimal for all situations a protocol
+might encounter. We expect that any group of estimates that roughly
+summarizes the recent history could form the basis of a workable
+congestion-control scheme.</p>
+
+<p>Arguably the real contribution is that we now have an empirical
+framework where the benefit of novel congestion signals can be
+measured and quantified under controlled conditions.</p></dd>
 
 <dt><p>Why do the computer-generated algorithms get these results?</p></dt>
 
-<dt><p>How is it possible that end-to-end algorithms can outperform in-network schemes like XCP and sfqCoDel?</p></dt>
+<dd><p>We don't know for sure. Remy's algorithms have more than 150
+rules, and will need to be reverse-engineered to figure out how and
+why they work. We suspect that there is considerable benefit to being able
+to combine window-based congestion control with pacing where appropriate, but we'll
+have to trace through these things as they execute to really understand why they work.</p>
+
+<p>Arguably, this is a side effect of the way that Remy shifts the
+complexity of the problem. Traditional TCP has relatively simple rules
+for endpoints to follow, but complex emergent behavior, implicit
+preconceptions about the network and an unknown goal. RemyCCs have
+very complex rules for endpoints to follow, but consistent emergent
+behavior and explicit assumptions and objective.</p>
+
+<dt><p>How is it possible that end-to-end algorithms can outperform
+in-network schemes like XCP and sfqCoDel? This seems surprising,
+especially as XCP gets to know the wire speed exactly, while RemyCCs
+have to just guess at it. Not to mention that in-network schemes are
+inherently more powerful than end-to-end ones.</p></dt>
+
+<dd><p>We agree it's a surprising result&mdash; we're working on a clear explanation for this.</p></dd>
 
 <dt><p>Isn't TCP basically good enough?</p></dt>
 
-<dt><p>Should a Remy-designed algorithm replace TCP?</p></dt>
+<dd><p>In practice, the answer seems to be no. Datacenters turn off
+slow start or
+run <a href="http://simula.stanford.edu/~alizade/Site/DCTCP.html">datacenter
+TCP</a> or more exotic schemes. Satellite operators are splitting the
+TCP connection and running their own reliable protocol on the
+satellite link. Hollywood studios may not use TCP to send movie
+footage from Europe back to Los Angeles, because TCP underutilizes
+high-delay links. Companies
+like <a href="http://asperasoft.com/">Aspera</a> make UDP file
+transfer applications for these kinds of customers. Bittorrent stopped
+using TCP because it filled up network buffers and angered users; they
+now prefer
+<a href="http://datatracker.ietf.org/wg/ledbat/charter/">LEDBAT</a>-over-UDP
+(&mu;TP). Google is experimenting with
+sending <a href="http://blog.chromium.org/2013/06/experimenting-with-quic.html">Web
+traffic over UDP</a> and has implemented this in Chromium.</p>
+
+<p>Second, TCP's fragility is constraining the lower layers. Networks
+mask stochastic losses, and avoid out-of-order delivery or multipath
+routing, because TCP reacts poorly to packet loss and out-of-order
+delivery. It's better to make TCP's assumptions explicit and then
+allow lower layers to innovate as they see fit, with the confidence
+that the transport layer can evolve as necessary.</p>
+
+<p>Finally, even applications that still use TCP don't "really" use
+TCP in the traditional sense. A Web browser may open 120 
+TCP connections just to load one Web page! Applications like
+Netflix build their own rate control on top of TCP, based on TCP's
+performance in downloading four-second chunks of coded video. This
+leads to
+well-documented <a href="http://www.stanford.edu/~huangty/imc012-huang.pdf">perverse
+results</a>.</p>
 
 <dt><p>Are you overfitting?</p></dt>
 
+<dd><p>Probably not. Remy was tested on synthetic, stochastic networks
+in simulation. We can always run the random simulation another million
+times to see how Remy does vs. TCP Reno, TCP Cubic, etc. This isn't
+like a machine learning task where we collected a limited corpus of
+real data and then we're trying to make statements about our ability
+to perform on future data, yet-to-be-collected.</p>
+
+<p>But there is a closely-related question, which is to ask: how much
+does Remy depend on the way the simulator works? Would it work at all
+on a real network? The only way to answer this with confidence is to
+try it on a real network, which we haven't done yet.</p></dd>
+
+<dt><p>How does the quality of the congestion-control algorithm depend on the prior assumptions?</p></dt>
+
+<dd><p>The more specific the prior knowledge, the better&mdash;as long
+as the prior knowledge is accurate. Here we show the performance of
+two Remy-designed congestion-control algorithms, or RemyCCs. One
+(shown in green) was designed for a network of exactly 15 Mbps. The
+RemyCC in red was designed for a network drawn randomly between 4.7
+Mbps and 47 Mbps. Cubic-over-sfqCoDel (an in-network scheme) is shown for comparison:</p>
+
 <dd><p class="text-center"><img width="360" src="spec-web.svg"></p></dd>
 
+<dd><p>Around a very narrow range centered on 15 Mbps, the green
+algorithm performs the best. But as its assumptions stop holding, its
+performance rapidly deteriorates. The red scheme works over a 10x
+range, but it too deteriorates as its assumptions are
+violated.</p></dd>
+
+<dd><p>TCP suffers a similar fate when its (implicit) assumptions are
+violated. For example, TCP assumes that even when network buffers are
+full enough to be dropping packets, delays are still acceptable to
+real-time cross traffic. That may have been true in 1989, but it's not
+true today&mdash;making it hard to run a TCP upload and a Skype call
+at the same time.</p></dd>
+
 <dt><p>Do you plan any future work?</p></dt>
+
+<p>Absolutely. We'd like to figure out <b>why</b> the RemyCCs work so
+well, by tracing through them as they execute and reverse-engineering
+them. We'd like to implement Remy on a real network and test it
+out. And we'd like to work to find the limits of Remy &mdash; can we
+successfully optimize a RemyCC over a 10,000x range of throughputs and
+delays? What are the obstacles to making that work? Are there other
+congestion signals that a RemyCC should consider? We welcome
+collaborators interested in working on this with us.</p>
 
 <dt><p>Who helped with Remy?</p></dt>
 
@@ -262,12 +538,13 @@ conversations
 to the simulator and for helpful discussions. We thank Leslie
 Kaelbling, Christopher Amato, Scott Shenker, and our shepherd, Ranjita
 Bhagwan. We thank Frans Kaashoek and Nickolai Zeldovich for the use of
-multicore machines at MIT. KW was supported by the Claude E. Shannon
-Research Assistantship. We thank the members of the MIT Center for
-Wireless Networks and Mobile Computing (Wireless@MIT), including
-Amazon.com, Cisco, Google, Intel, Mediatek, Microsoft, ST
-Microelectronics, and Telefonica, for their support. This work was
-also supported in part by NSF grant CNS-1040072.</p></dd>
+multicore machines at MIT, and Damon Wischik for stimulating
+conversation. KW was supported by the Claude E. Shannon Research
+Assistantship. We thank the members of the MIT Center for Wireless
+Networks and Mobile Computing (Wireless@MIT), including Amazon.com,
+Cisco, Google, Intel, Mediatek, Microsoft, ST Microelectronics, and
+Telefonica, for their support. This work was also supported in part by
+NSF grant CNS-1040072.</p></dd>
 
 	  </dl>
 	</div>
