@@ -132,7 +132,7 @@ most sophisticated human-designed schemes.</p>
 	</div>
       </section>
 
-      <section id="paper">
+      <section id="faq">
 	<div class="page-header">
 	  <h3>Frequently Asked Questions</h3>
 	</div>
@@ -254,7 +254,7 @@ automatically. In our view, this flexibility would free up
 the network infrastructure to explore new behaviors. Multipath routing,
 out-of-order delivery, and exposing stochastic loss may be good things!</p></dd>
 
-<dt><p>How does this relate to "bufferbloat"?</p></dt>
+<dt><p>How does this relate to &ldquo;bufferbloat&rdquo;?</p></dt>
 
 <dd><p>It's now
 a <a href="http://queue.acm.org/detail.cfm?id=2071893">well-known
@@ -284,6 +284,54 @@ scheme that is implemented in Linux, and Remy is academic research
 measured in simulation, so it would be premature to claim victory. But
 Remy suggests there is an alternative, possibly more deployable,
 solution to the same problem.</p></dd>
+
+<dt><p>Isn't TCP basically good enough?</p></dt>
+
+<dd><p>In practice, the answer appears to be no.<p>
+
+<p>First, the consensus around what TCP should assume and should aim
+for has frayed. Datacenters turn off slow start or
+run <a href="http://simula.stanford.edu/~alizade/Site/DCTCP.html">datacenter
+TCP</a> or more exotic schemes. Satellite operators split the
+TCP connection and run their own protocol on the
+satellite link. Movie studios avoid TCP when sending large files of
+movie footage from Europe back to Hollywood, because TCP underutilizes
+high-delay links. Companies
+like <a href="http://asperasoft.com/">Aspera</a> make UDP file
+transfer applications for these kinds of customers. Bittorrent became
+unhappy with TCP because it filled up network buffers and angered
+users and network operators; they now prefer
+<a href="http://datatracker.ietf.org/wg/ledbat/charter/">LEDBAT</a>-over-UDP
+(&mu;TP). Google is experimenting with
+sending <a href="http://blog.chromium.org/2013/06/experimenting-with-quic.html">Web
+traffic over UDP</a> and has implemented this in Chromium. Our
+own <a href="http://mosh.mit.edu">Mosh</a> application uses a
+UDP-based protocol that synchronizes state over challenged networks,
+because TCP can't handle frequent packet loss or intermittent connectivity.</p>
+
+<p>Second, TCP's fragility is constraining the lower layers. Networks
+mask stochastic losses, and avoid out-of-order delivery or multipath
+routing, because TCP reacts poorly to packet loss and out-of-order
+delivery. It would be preferable to make TCP's assumptions explicit and
+allow lower layers to innovate as they see fit, with the confidence
+that the transport layer can evolve as necessary.</p>
+
+<p>Finally, even applications that do use TCP often don't &ldquo;really&rdquo; use
+TCP in the traditional sense. A Web browser may open 120 
+TCP connections just to load one Web page! Applications like
+Netflix build their own rate control on top of TCP, based on TCP's
+performance in downloading four-second chunks of coded video. This
+leads to
+well-documented <a href="http://www.stanford.edu/~huangty/imc012-huang.pdf">perverse
+results</a>.</p>
+
+<p>It's not an original observation to point out that these
+applications have all defected from the idea of a one-size-fits-all
+TCP to enforce fairness on the Internet. But we think our contribution
+is to show it's possible that these disparate schemes can all be united under a
+common framework, where protocol designers specify what they want out
+of the protocol&mdash;what the network will look like, what the goal
+is&mdash;and the protocols become a function of that.</p>
 
 <dt><p>How do I interpret the performance plots?</p></dt>
 
@@ -400,7 +448,7 @@ those will be requires simulating the network with every node running
 the same rules. So Remy mixes structural optimizations (splitting the
 existing rules) with improvements to existing rules, and alternates between them.</p>
 
-<p>Formally, Remy's optimization is non-parametric (so it's not "just"
+<p>Formally, Remy's optimization is non-parametric (so it's not &ldquo;just&rdquo;
 a parameter sweep technique), because the number of parameters is
 unbounded and continues growing as rules are split. But Remy is not as
 general as to find any algorithm that might be best&mdash;we restrict
@@ -448,41 +496,6 @@ inherently more powerful than end-to-end ones.</p></dt>
 
 <dd><p>We agree it's a surprising result&mdash; we're working on a clear explanation for this.</p></dd>
 
-<dt><p>Isn't TCP basically good enough?</p></dt>
-
-<dd><p>In practice, the answer seems to be no. Datacenters turn off
-slow start or
-run <a href="http://simula.stanford.edu/~alizade/Site/DCTCP.html">datacenter
-TCP</a> or more exotic schemes. Satellite operators are splitting the
-TCP connection and running their own reliable protocol on the
-satellite link. Hollywood studios may not use TCP to send movie
-footage from Europe back to Los Angeles, because TCP underutilizes
-high-delay links. Companies
-like <a href="http://asperasoft.com/">Aspera</a> make UDP file
-transfer applications for these kinds of customers. Bittorrent stopped
-using TCP because it filled up network buffers and angered users; they
-now prefer
-<a href="http://datatracker.ietf.org/wg/ledbat/charter/">LEDBAT</a>-over-UDP
-(&mu;TP). Google is experimenting with
-sending <a href="http://blog.chromium.org/2013/06/experimenting-with-quic.html">Web
-traffic over UDP</a> and has implemented this in Chromium.</p>
-
-<p>Second, TCP's fragility is constraining the lower layers. Networks
-mask stochastic losses, and avoid out-of-order delivery or multipath
-routing, because TCP reacts poorly to packet loss and out-of-order
-delivery. It's better to make TCP's assumptions explicit and then
-allow lower layers to innovate as they see fit, with the confidence
-that the transport layer can evolve as necessary.</p>
-
-<p>Finally, even applications that still use TCP don't "really" use
-TCP in the traditional sense. A Web browser may open 120 
-TCP connections just to load one Web page! Applications like
-Netflix build their own rate control on top of TCP, based on TCP's
-performance in downloading four-second chunks of coded video. This
-leads to
-well-documented <a href="http://www.stanford.edu/~huangty/imc012-huang.pdf">perverse
-results</a>.</p>
-
 <dt><p>Are you overfitting?</p></dt>
 
 <dd><p>Probably not. Remy was tested on synthetic, stochastic networks
@@ -523,14 +536,14 @@ at the same time.</p></dd>
 
 <dt><p>Do you plan any future work?</p></dt>
 
-<p>Absolutely. We'd like to figure out <b>why</b> the RemyCCs work so
+<dd><p>Absolutely. We'd like to figure out <b>why</b> the RemyCCs work so
 well, by tracing through them as they execute and reverse-engineering
 them. We'd like to implement Remy on a real network and test it
 out. And we'd like to work to find the limits of Remy &mdash; can we
 successfully optimize a RemyCC over a 10,000x range of throughputs and
 delays? What are the obstacles to making that work? Are there other
 congestion signals that a RemyCC should consider? We welcome
-collaborators interested in working on this with us.</p>
+collaborators interested in working on this with us.</p></dd>
 
 <dt><p>Who helped with Remy?</p></dt>
 
@@ -548,6 +561,15 @@ NSF grant CNS-1040072.</p></dd>
 
 	  </dl>
 	</div>
+      </section>
+
+      <section id="contact">
+	<div class="page-header">
+	  <h3>Contact</h3>
+	</div>
+
+	<p>This work is by Keith Winstein and <a href="http://nms.lcs.mit.edu/~hari/">Hari Balakrishnan</a>. You can e-mail us at <code>remy at mit dot edu</code></p>
+
       </section>
 
       <div class="footer">
