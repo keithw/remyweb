@@ -267,8 +267,8 @@ Skype call and a big upload at the same time over a
 cable modem&mdash;the upload can cause the Skype call to see delays of
 2 seconds or more.</p>
 
-<p>Many in the bufferbloat community argue that network operators
-should modify the infrastructure to have shorter buffers or
+<p>Some researchers have argued eloquently that network operators
+and implementers should modify the infrastructure to have shorter buffers or
 intelligent queue-management schemes, such as the
 recent <a href="http://en.wikipedia.org/wiki/CoDel">CoDel</a> and
 separate queues for different flows. But modifying every place there
@@ -280,16 +280,14 @@ be an uphill battle.<p>
 performance is possible without modifying network infrastructure at
 all&mdash;just by modifying the contending endpoints. Which route is
 easier depends on where you sit, and to be clear, CoDel is an actual
-scheme that is implemented in Linux, and Remy is academic research
-measured in simulation, so it would be premature to claim victory. But
+scheme that is implemented in Linux, whereas Remy is academic research
+measured in simulation, so it would be premature to claim real-world parity. But
 Remy suggests there is an alternative, possibly more deployable,
 solution to the same problem.</p></dd>
 
 <dt><p>Isn't TCP basically good enough?</p></dt>
 
-<dd><p>In practice, the answer appears to be no.<p>
-
-<p>First, the consensus around what TCP should assume and should aim
+<dd><p>In practice, the answer appears to be no. First, the consensus around what TCP should assume and should aim
 for has frayed. Datacenters turn off slow start or
 run <a href="http://simula.stanford.edu/~alizade/Site/DCTCP.html">datacenter
 TCP</a> or more exotic schemes. Satellite operators split the
