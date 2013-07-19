@@ -448,14 +448,15 @@ existing rules) with improvements to existing rules, and alternates between them
 
 <p>Formally, Remy's optimization is non-parametric (so it's not &ldquo;just&rdquo;
 a parameter sweep technique), because the number of parameters is
-unbounded and continues growing as rules are split. But Remy is not as
+unbounded and continues growing as rules are split. But Remy is not so
 general as to find any algorithm that might be best&mdash;we restrict
-the RemyCC to only consider the three state variables.</p></dd>
+the RemyCC to only consider the three state variables. This reduces the
+search space dramatically.</p></dd>
 
 <dt><p>How did you pick these congestion signals?</p></dt>
 
-<dd><p>We experimented with various signals in Remy and narrowed the
-memory to this set after examining and discarding quantities like the
+<dd><p>We experimented with various signals in Remy and settled on
+this set after examining and discarding quantities like the
 most-recent RTT sample, the smoothed RTT estimate, and the difference
 between the long-term moving average and short-term average of the observed packet
 rate or RTT. In our experiments, adding extra state variables didn’t
