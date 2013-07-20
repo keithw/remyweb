@@ -647,21 +647,20 @@ NSF grant CNS-1040072.</p></dd>
 	      this runs the simulations necessary to construct Figure
 	      4 (a 15 Mbps dumbbell network with RTT of 150
 	      millisecond). This configuration is contained in
-	      <code>remyconf/dumbbell-buf1000-rtt150-bneck15.tcl</code>. The <code>remyconf</code>
-	      directory also includes the configurations used for the
-	      other figures.</li>
-
-	    <li>On a typical PC, the full job will take a long time to
-	    complete. It will run the simulations in parallel and in
-	    the background. After it has completed at least a few
-	    runs, you can start to graph the results.</li>
+	      remyconf/dumbbell-buf1000-rtt150-bneck15.tcl. The
+	      remyconf directory also includes the configurations used
+	      for the other figures. On a typical PC, the full job
+	      will take a long time to complete. It will run the
+	      simulations in parallel and in the background. After it
+	      has completed at least a few runs, you can start to
+	      graph the results.</li>
 
 	    <li><code>cd ../graphing-scripts</code></li>
 
-	    <li><code>./graphmaker ../congctrl/results/</code>. This
-	    will output an SVG and PNG file for each <code>nsrc</code>
+	    <li>Run <code>./graphmaker ../congctrl/results/</code>. This
+	    will output an SVG and PNG file for each nsrc
 	    (maximum degree of multiplexing) enumerated
-	    in <code>run-figure4-parallel</code>. (As distributed,
+	    in run-figure4-parallel. (As distributed,
 	    only 8 is tested.) The graphmaker requires inkscape.</li>
 
 	    <li>To view the image, <code>display
