@@ -86,7 +86,15 @@ rely on intelligence inside the network.">
         <h3><span class="text-error">TCP ex
         Machina: </span>Computer-Generated Congestion Control</h3>
 	<p class="text-right muted">by Keith Winstein and Hari Balakrishnan<br />
-	MIT Computer Science and Artificial Intelligence Laboratory</p>
+	MIT Computer Science and Artificial Intelligence Laboratory<br />
+	(SIGCOMM 2013)</p>
+
+        <h3 style="white-space: nowrap;">An Experimental Study of<br />
+        the <span class="text-error">Learnability of Congestion
+        Control</h3>
+	<p class="text-right muted">by Anirudh Sivaraman, Keith Winstein, Pratiksha Thaker, and Hari Balakrishnan<br />
+	MIT Computer Science and Artificial Intelligence Laboratory<br />
+	(SIGCOMM 2014)</p>
       </div>
 
       <hr>
@@ -105,16 +113,16 @@ most sophisticated human-designed schemes.</p>
 	<p><img width="600" src="remy-hero-chart-convert2.svg"></p>
 	<br />
 
-        <a class="btn btn-primary" href="TCPexMachina.pdf">Read the Paper</a>
+        <a class="btn btn-primary" href="#papers">Read the Papers</a>
         <a class="btn btn-info" href="#reproduce">Reproduce the Results</a>
         <a class="btn btn-success" href="https://github.com/keithw/remy">Get the Code</a>
       </div>
 
       <hr>
 
-      <section id="paper">
+      <section id="papers">
 	<div class="page-header">
-	  <h3>Research Paper</h3>
+	  <h3>Research Papers</h3>
 	</div>
 
 	<div class="row">
@@ -126,11 +134,23 @@ most sophisticated human-designed schemes.</p>
 	    <div class="well"><p><a href="TCPexMachina.pdf"><img src="pdf.png"> TCP ex Machina: Computer-Generated Congestion Control</a></p>
 
 	    <p class="muted"><small>This is the authors' version of
-		the work. The definitive version will be published in
+		the work. The definitive version was published in
 		the proceedings of ACM SIGCOMM 2013.</small></p>
 	    </div>
 
-	    <div class="well"><p><a href="Remy-SIGCOMM-2013.pdf"><img src="pdf.png"> Slides from SIGCOMM presentation</a></p>
+	    <div class="well"><p><a href="Remy-SIGCOMM-2013.pdf"><img src="pdf.png"> Slides from SIGCOMM 2013 presentation</a></p>
+	    </div>
+
+	    <p>The &ldquo;learnability&rdquo; paper will be presented
+	    at the <a href="http://conferences.sigcomm.org/sigcomm/2014">ACM
+	    SIGCOMM 2014 annual conference</a> in Chicago on August 21, 2014.</p>
+
+	    <div class="well"><p><a href="http://web.mit.edu/keithw/www/Learnability-SIGCOMM2014.pdf"><img src="pdf.png"> An
+Experimental Study of the Learnability of Congestion Control</a></p>
+
+	    <p class="muted"><small>This is the authors' version of
+		the work. The definitive version will be published in
+		the proceedings of ACM SIGCOMM 2014.</small></p>
 	    </div>
 	  </div>
 	</div>
@@ -532,8 +552,10 @@ Mbps and 47 Mbps. Cubic-over-sfqCoDel (an in-network scheme) is shown for compar
 <dd><p>Around a very narrow range centered on 15 Mbps, the green
 algorithm performs the best. But as its assumptions stop holding, its
 performance rapidly deteriorates. The red scheme works over a 10x
-range, but it too deteriorates as its assumptions are
-violated.</p></dd>
+range, but it too deteriorates as its assumptions are violated. In the
+&ldquo;learnability&rdquo; paper, we describe a RemyCC that
+outperforms Cubic-over-sfqCoDel over a thousand-fold range of link
+speeds.</p></dd>
 
 <dd><p>TCP suffers a similar fate when its (implicit) assumptions are
 violated. For example, TCP assumes that even when network buffers are
@@ -608,11 +630,10 @@ movie <b>Rat</b>atouille.</p></dd>
 
 	    <dt><p>Who helped with Remy?</p></dt>
 
-<dd><p>We are grateful to Anirudh Sivaraman for several contributions
-to the simulator and for helpful discussions. We thank Leslie
-Kaelbling, Christopher Amato, Scott Shenker, and our shepherd, Ranjita
-Bhagwan. We thank Frans Kaashoek and Nickolai Zeldovich for the use of
-multicore machines at MIT, and Damon Wischik, Chris Lesniewski, and Juliusz Chroboczek for stimulating
+<dd><p>We thank Leslie Kaelbling, Christopher Amato, Scott Shenker,
+and our shepherd, Ranjita Bhagwan. We thank Frans Kaashoek and
+Nickolai Zeldovich for the use of multicore machines at MIT, and Damon
+Wischik, Chris Lesniewski, and Juliusz Chroboczek for stimulating
 conversation. KW was supported by the Claude E. Shannon Research
 Assistantship. We thank the members of the MIT Center for Wireless
 Networks and Mobile Computing (Wireless@MIT), including Amazon.com,
@@ -630,7 +651,7 @@ NSF grant CNS-1040072.</p></dd>
 	  <h3>Reproducing the Results</h3>
 	</div>
 
-	<p>To reproduce the paper's <a href="#fig4">Figure 4 (shown above)</a> and 
+	<p>To reproduce the Remy paper's <a href="#fig4">Figure 4 (shown above)</a> and 
 	  other throughput-delay plots, please make sure you have a
 	  C++11 compiler (recent gcc or clang). We
 	  have tested the following steps on Ubuntu 13.04.
@@ -690,7 +711,12 @@ NSF grant CNS-1040072.</p></dd>
 	  <h3>Contact</h3>
 	</div>
 
-	<p>This work is by <a href="http://web.mit.edu/keithw">Keith Winstein</a> and <a href="http://nms.lcs.mit.edu/~hari/">Hari Balakrishnan</a>. You can e-mail us at <code>remy at mit dot edu</code></p>
+	<p>This work is by <a href="http://web.mit.edu/keithw">Keith
+	Winstein</a>, <a href="http://web.mit.edu/anirudh/www/">Anirudh
+	Sivaraman</a>, Pratiksha Thaker,
+	and <a href="http://nms.lcs.mit.edu/~hari/">Hari
+	Balakrishnan</a>. You can e-mail us at <code>remy at mit dot
+	edu</code></p>
 
       </section>
 
